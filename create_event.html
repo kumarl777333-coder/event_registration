@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Create Event – EventHub{% endblock %}
+
+{% block content %}
+<div class="form-page">
+  <div class="form-header">
+    <a href="{{ url_for('index') }}" class="back-link">← Back</a>
+    <h1>Create New Event</h1>
+    <p>Fill in the details below to publish your event.</p>
+  </div>
+
+  <form class="event-form" method="POST">
+    <div class="form-group">
+      <label for="title">Event Title *</label>
+      <input type="text" id="title" name="title" required placeholder="e.g. Annual Tech Summit 2026" />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description *</label>
+      <textarea id="description" name="description" rows="4" required placeholder="Tell attendees what this event is about..."></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="date">Date &amp; Time *</label>
+        <input type="datetime-local" id="date" name="date" required />
+      </div>
+      <div class="form-group">
+        <label for="capacity">Capacity *</label>
+        <input type="number" id="capacity" name="capacity" min="1" required placeholder="e.g. 100" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location *</label>
+      <input type="text" id="location" name="location" required placeholder="e.g. Hyderabad Convention Centre" />
+    </div>
+
+    <div class="form-actions">
+      <a href="{{ url_for('index') }}" class="btn-outline">Cancel</a>
+      <button type="submit" class="btn-primary">Publish Event →</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

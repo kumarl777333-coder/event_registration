@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.title }} – EventHub{% endblock %}
+
+{% block content %}
+<div class="detail-page">
+  <div class="detail-header">
+    <a href="{{ url_for('index') }}" class="back-link">← All Events</a>
+    <div class="detail-meta">
+      <span class="card-date">{{ event.date.strftime('%B %d, %Y at %I:%M %p') }}</span>
+      <span class="spots {% if event.is_full %}no-spots{% elif event.spots_left <= 5 %}few-spots{% endif %}">
+        {% if event.is_full %}SOLD OUT{% else %}{{ event.spots_left }} / {{ event.capacity }} spots available{% endif %}
+      </span>
+    </div>
+    <h1>{{ event.title }}</h1>
+    <p class="detail-location">📍 {{ event.location }}</p>
+  </div>
+
+  <div class="detail-body">
+    <div class="detail-description">
+      <h2>About this Event</h2>
+      <p>{{ event.description }}</p>
+
+      {% if not event.is_full %}
+      <a href="{{ url_for('register', event_id=event.id) }}" class="btn-primary large">Register Now →</a>
+      {% else %}
+      <button class="btn-primary large" disabled>Event Full</button>
+      {% endif %}
+    </div>
+
+    <div class="detail-sidebar">
+      <div class="sidebar-card">
+        <h3>Registrations ({{ registrations|length }})</h3>
+        {% if registrations %}
+          <ul class="registrant-list">
+            {% for r in registrations %}
+            <li>
+              <span class="reg-avatar">{{ r.name[0].upper() }}</span>
+              <div>
+                <strong>{{ r.name }}</strong>
+                <small>{{ r.registered_at.strftime('%b %d') }}</small>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="no-regs">No registrations yet. Be the first!</p>
+        {% endif %}
+      </div>
+
+      <form method="POST" action="{{ url_for('delete_event', event_id=event.id) }}"
+            onsubmit="return confirm('Delete this event and all registrations?')">
+        <button type="submit" class="btn-danger">Delete Event</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

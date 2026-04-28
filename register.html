@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Register – {{ event.title }}{% endblock %}
+
+{% block content %}
+<div class="form-page">
+  <div class="form-header">
+    <a href="{{ url_for('event_detail', event_id=event.id) }}" class="back-link">← Back to Event</a>
+    <h1>Register for Event</h1>
+    <p class="form-event-name">{{ event.title }} · {{ event.date.strftime('%b %d, %Y') }}</p>
+  </div>
+
+  <form class="event-form" method="POST">
+    <div class="form-group">
+      <label for="name">Full Name *</label>
+      <input type="text" id="name" name="name" required placeholder="Your full name" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address *</label>
+      <input type="email" id="email" name="email" required placeholder="you@example.com" />
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number <span class="optional">(optional)</span></label>
+      <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" />
+    </div>
+
+    <div class="spots-indicator">
+      <div class="spots-bar">
+        <div class="spots-fill" style="width: {{ ((event.capacity - event.spots_left) / event.capacity * 100)|int }}%"></div>
+      </div>
+      <small>{{ event.spots_left }} of {{ event.capacity }} spots remaining</small>
+    </div>
+
+    <div class="form-actions">
+      <a href="{{ url_for('event_detail', event_id=event.id) }}" class="btn-outline">Cancel</a>
+      <button type="submit" class="btn-primary">Confirm Registration →</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
